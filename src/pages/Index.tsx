@@ -20,7 +20,7 @@ const Index = () => {
         <div className="flex items-center gap-6">
           <span className="text-muted-foreground font-mono text-xs uppercase tracking-widest">v1.0</span>
           <button
-            onClick={() => navigate("/onboarding")}
+            onClick={() => navigate("/auth")}
             className="font-mono text-sm text-primary hover:glow-text transition-all"
           >
             ENTER →
@@ -56,7 +56,7 @@ const Index = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={() => navigate("/onboarding")}
+              onClick={() => navigate("/auth")}
               className="group flex items-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-heading font-semibold text-sm uppercase tracking-wider hover:glow-border transition-all"
             >
               Enter Network
