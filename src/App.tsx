@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
 import CreateAgent from "./pages/CreateAgent";
+import CreateSite from "./pages/CreateSite";
+import AgentDetail from "./pages/AgentDetail";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +27,8 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/create-agent" element={<CreateAgent />} />
+            <Route path="/create-site" element={<CreateSite />} />
+            <Route path="/agent/:id" element={<AgentDetail />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

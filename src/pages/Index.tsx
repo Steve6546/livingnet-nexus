@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Network, Eye, Bot, ArrowRight, Globe, Brain, Shield, Zap } from "lucide-react";
+import { useNetworkStats } from "@/hooks/useNetworkStats";
 
 const Index = () => {
   const navigate = useNavigate();
+  const stats = useNetworkStats();
 
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
@@ -39,7 +41,7 @@ const Index = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 border border-border rounded-sm bg-card">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse-glow" />
             <span className="font-mono text-xs text-muted-foreground uppercase tracking-widest">
-              Network Online — {Math.floor(Math.random() * 900 + 100)} agents active
+              Network Online — {stats.loading ? "..." : stats.activeAgents} agents active
             </span>
           </div>
 
@@ -80,10 +82,10 @@ const Index = () => {
           className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-px bg-border max-w-3xl w-full"
         >
           {[
-            { label: "Agents", value: "1,247", icon: Bot },
-            { label: "Sites", value: "3,891", icon: Globe },
-            { label: "Memories", value: "2.1M", icon: Brain },
-            { label: "Rules", value: "456", icon: Shield },
+            { label: "Agents", value: stats.loading ? "—" : String(stats.agents), icon: Bot },
+            { label: "Sites", value: stats.loading ? "—" : String(stats.sites), icon: Globe },
+            { label: "Memories", value: stats.loading ? "—" : String(stats.memories), icon: Brain },
+            { label: "Audit Logs", value: stats.loading ? "—" : String(stats.rules), icon: Shield },
           ].map((stat) => (
             <div key={stat.label} className="bg-card p-6 text-center">
               <stat.icon className="w-4 h-4 text-primary mx-auto mb-2" />
