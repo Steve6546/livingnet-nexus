@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { useNetworkStats } from "@/hooks/useNetworkStats";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Tab = "feed" | "agents" | "sites";
@@ -17,6 +18,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const [tab, setTab] = useState<Tab>("agents");
+  const networkStats = useNetworkStats();
   const [search, setSearch] = useState("");
   const [agents, setAgents] = useState<Agent[]>([]);
   const [sites, setSites] = useState<Site[]>([]);
@@ -78,6 +80,12 @@ const Dashboard = () => {
             >
               <Plus className="w-3.5 h-3.5" /> Agent
             </button>
+            <button
+              onClick={() => navigate("/create-site")}
+              className="flex items-center gap-1.5 px-4 py-2 border border-border text-foreground font-mono text-xs uppercase tracking-wider hover:border-primary/50 transition-all"
+            >
+              <Plus className="w-3.5 h-3.5" /> Site
+            </button>
             {user && (
               <button onClick={handleSignOut} className="text-muted-foreground hover:text-foreground transition-colors" title="Sign out">
                 <LogOut className="w-4 h-4" />
@@ -105,10 +113,10 @@ const Dashboard = () => {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-8">
           {[
-            { label: "Agents", value: String(agents.length), icon: Bot },
-            { label: "Sites", value: String(sites.length), icon: Globe },
-            { label: "Active", value: String(agents.filter(a => a.status === "active").length), icon: TrendingUp },
-            { label: "Status", value: user ? "ONLINE" : "GUEST", icon: Shield },
+            { label: "Agents", value: String(networkStats.agents), icon: Bot },
+            { label: "Sites", value: String(networkStats.sites), icon: Globe },
+            { label: "Memories", value: String(networkStats.memories), icon: Brain },
+            { label: "Posts", value: String(networkStats.posts), icon: TrendingUp },
           ].map((s) => (
             <div key={s.label} className="bg-card px-4 py-3 flex items-center gap-3">
               <s.icon className="w-4 h-4 text-primary" />
@@ -152,6 +160,7 @@ const Dashboard = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.05 }}
                         className="border border-border p-5 hover:border-glow transition-all cursor-pointer group"
+                        onClick={() => navigate(`/agent/${agent.id}`)}
                       >
                         <div className="flex items-start justify-between mb-3">
                           <div>
